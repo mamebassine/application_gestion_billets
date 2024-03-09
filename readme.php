@@ -23,7 +23,7 @@ Apres installation de XAMPP et démarrez les services Apache et MySQL.
 Configurez les paramètres de base de données dans le fichier config.php.
 
 Configuration du Projet
-Clonez le dépôt : git clone https://github.com/votre-nom/projet-reservation-billets.git
+Clonez le dépôt : git clone https://github.com/mamebassine/application_gestion_billets
 Accédez au répertoire du projet : cd projet-reservation-billets
 Lancement de l'Application
 Installez les dépendances : npm install
@@ -44,7 +44,7 @@ Contribution au Projet
 Fork du Projet 
 Cliquez sur "Fork" sur la page du projet GitHub pour créer votre propre copie du projet.
 Clonage du Projet Localement :
-Clonez votre fork sur votre machine avec git clone https://github.com/votre-nom/projet-reservation-billets.git.
+Clonez votre fork sur votre machine avec git clone https://github.com/mamebassine/application_gestion_billets.
 Création d'une Nouvelle Branche :
 Créez une nouvelle branche pour votre contribution avec git checkout -b feature/nom-de-la-fonctionnalite.
 Faites vos Modifications et Commit :
