@@ -12,18 +12,9 @@
             font-family: Arial, sans-serif;
             background-image: url('image.png'); /* Ajout de l'image de fond */
             background-size: cover;
-            color: #FFFEFE; /* Couleur du texte */
+            color: #FE7A15; /* Couleur du texte */
         }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #FFFEFE;
-            color: #607080;
-        }
-
-        header {
+ header {
             background: linear-gradient(to right, #FFFEFE);
             padding: 20px;
             color: #607080;
@@ -72,6 +63,7 @@
 
         /* Styles spécifiques */
         h1 {
+            margin-top: 1%;
             color: #3022BC;
             margin-left: 5%;
         }
@@ -80,19 +72,22 @@
             width: 80%;
             margin: 20px auto;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 5px;
             margin-bottom: 20px;
+            margin-top: 1%;
         }
 
         th, td {
-            border: 1px solid #3022BC;
+            border: 1px solid #3011BC;
             padding: 10px;
             text-align: center;
+            
         }
 
         th {
             background-color: #607080;
             color: #FFFEFE;
+                      
             
         }
 
@@ -205,6 +200,7 @@
     cursor: pointer;
     text-decoration: none;
     margin-left: 55%;
+    margin-top: -4%;
 
 }
 
@@ -216,7 +212,7 @@
             background-color: #3011BC;
             color: #FFFEFE;
             text-align: center;
-            padding: 3px;
+            padding: -15px;
             position: fixed;
             bottom: 0;
             width: 100%;
@@ -287,9 +283,7 @@
                     <a class='btn btn-supprimer' href='delete.php?id=" . $row["id"] . "'>Supprimer</a>
                 </td>";
             echo "</tr>";
-        }
-        
-    ?>
+        }?>
      <footer>
         <p>Entreprise AIR SIMPLON SENEGAL</p>
     </footer>

@@ -1,4 +1,39 @@
+<?php
+// Inclure le fichier de connexion à la base de données
+require_once "connectionBD.php";
 
+// Vérifier si le formulaire a été soumis
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Récupérer les valeurs du formulaire
+    $dateReservation = $_POST["dateReservation"];
+    $dateRetour = $_POST["dateRetour"];
+    $prixBillets = $_POST["prixBillets"];
+    $statutBillets = $_POST["statutBillets"];
+    $numeroPlace = $_POST["numeroPlace"];
+    $typeBillets = $_POST["typeBillets"];
+    $paiementBillets = $_POST["paiementBillets"];
+
+    // Utiliser des requêtes préparées pour éviter les injections SQL
+    $requete = $connexion->prepare("INSERT INTO billets (DateHeure_reservation_billets, DateHeure_retour_billets, Prix_billets, Statut_billets, NumeroPlace_billets, Type_billets, Paiement_billets) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+    // Associer les valeurs aux paramètres de la requête préparée
+    $requete->bind_param("ssdssss", $dateReservation, $dateRetour, $prixBillets, $statutBillets, $numeroPlace, $typeBillets, $paiementBillets);
+
+    // Exécuter la requête préparée
+    if ($requete->execute()) {
+        header("Location: listebillets.php");
+        exit(); // Assure que le script s'arrête ici après la redirection
+    } else {
+        echo "Erreur lors de l'insertion : " . $requete->error;
+    }
+
+    // Fermer la requête préparée
+    $requete->close();
+}
+
+// Fermer la connexion à la base de données
+$connexion->close();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -134,7 +169,7 @@ nav {
         }
 
         .button1 {
-            
+            background-color: #3011BC;
             color: #FFFEFE; /* Couleur du texte du bouton */
             padding: 4px;
             border: none;
@@ -148,13 +183,16 @@ nav {
         }
 
         .cancel-button {
+            background-color: #3011BC;
             text-decoration: none;
             color: #FFFEFE; /* Couleur du texte du bouton */
             padding: 4px;
             border: none;
             border-radius: 3px;
             cursor: pointer;
-            
+        }
+        .button :hover {
+            background-color: #FE7A15; /* Couleur au survol du bouton */
         }
          /* Style du pied de page */
          footer {
@@ -168,94 +206,63 @@ nav {
         }
     </style>
 </head>
-<header>
-        <div class="logo">
-            <img src="logosimplon.png" alt="">
-        </div>
-        <nav>
-            <ul class="menu1">
-               <li><a href="index.php">Accueil</a></li>
-                <li><a href="client.php">Reservation</a></li>
-                <li><a href="achatbillets.php">Billets</a></li>
-                <li><a href="listebillets.php">Liste des billets</a></li>
-            </ul>
-            <ul class="menu2">
-                <li><a href="#" class="suivilogo1">Support</a></li>
-                <li><a href="#" class="suivilogo2">Sign in</a></li>
-            </ul>
-        </nav>
-    </header>
-<body>
-    <form action="#" method="post">
-        <h2>Acheter un Billet</h2>
-        <!-- Vos commentaires ici -->
+    <body>
+        <header>
+                <div class="logo">
+                    <img src="logosimplon.png" alt="">
+                </div>
+                <nav>
+                    <ul class="menu1">
+                    <li><a href="index.php">Accueil</a></li>
+                        <li><a href="client.php">Reservation</a></li>
+                        <li><a href="achatbillets.php">Billets</a></li>
+                        <li><a href="listebillets.php">Liste des billets</a></li>
+                    </ul>
+                    <ul class="menu2">
+                        <li><a href="#" class="suivilogo1">Support</a></li>
+                        <li><a href="#" class="suivilogo2">Sign in</a></li>
+                    </ul>
+                </nav>
+            </header>
+        <form action="achatbillets.php" method="post">
+                <h2>Acheter un Billet</h2>
+                <!-- Vos commentaires ici -->
 
-        <label for="dateReservation">Date et heure de réservation :</label>
-        <input type="datetime-local" id="dateReservation" name="dateReservation" required>
+                <label for="dateReservation">Date et heure de réservation :</label>
+                <input type="datetime-local" id="dateReservation" name="dateReservation" required>
 
-        <label for="dateRetour">Date et heure de retour :</label>
-        <input type="datetime-local" id="dateRetour" name="dateRetour" required>
+                <label for="dateRetour">Date et heure de retour :</label>
+                <input type="datetime-local" id="dateRetour" name="dateRetour" required>
 
-        <label for="prixBillets">Prix des billets :</label>
-        <input type="number" id="prixBillets" name="prixBillets" required>
+                <label for="prixBillets">Prix des billets :</label>
+                <input type="number" id="prixBillets" name="prixBillets" required>
 
-        <label for="statutBillets">Statut des billets :</label>
-        <select id="statutBillets" name="statutBillets" required>
-            <option value="en_attente">En attente</option>
-            <option value="confirme">Confirmé</option>
-            <option value="annule">Annulé</option>
-        </select>
-
-        <label for="numeroPlace">Numéro de place :</label>
-        <input type="text" id="numeroPlace" name="numeroPlace" required>
-
-        <label for="typeBillets">Type de billets :</label>
-        <select id="typeBillets" name="typeBillets" required>
-            <option value="economique">Économique</option>
-            <option value="affaires">Affaires</option>
-            <option value="premiere_classe">Première classe</option>
-        </select>
-
-        <label for="paiementBillets">Paiement des billets :</label>
-        <select id="paiementBillets" name="paiementBillets" required>
-            <option value="carte">Carte de crédit</option>
-            <option value="espece">Espèces</option>
-            <option value="virement">Virement bancaire</option></select>
-            <a href="listebillets.php" class="button1">Acheter</a>
-            <a href="listebillets.php" class="cancel-button">Annuler</a>
-    </form>
-    <footer>
-        <p>Entreprise AIR SIMPLON SENEGAL</p>
-    </footer>
-</body>
+                <label for="statutBillets">Statut des billets :</label>
+                <select id="statutBillets" name="statutBillets" required>
+                    <option value="en_attente">En attente</option>
+                    <option value="confirme">Confirmé</option>
+                    <option value="annule">Annulé</option>
+                </select>
+                <label for="numeroPlace">Numéro de place :</label>
+                <input type="text" id="numeroPlace" name="numeroPlace" required>
+                <label for="typeBillets">Type de billets :</label>
+                <select id="typeBillets" name="typeBillets" required>
+                    <option value="economique">Économique</option>
+                    <option value="affaires">Affaires</option>
+                    <option value="premiere_classe">Première classe</option>
+                </select>
+                <label for="paiementBillets">Paiement des billets :</label>
+                <select id="paiementBillets" name="paiementBillets" required>
+                    <option value="carte">Carte de crédit</option>
+                    <option value="espece">Espèces</option>
+                    <option value="virement">Virement bancaire</option>
+                </select>
+                <button type="submit" class="button1">Acheter</button>
+                <button type="reset" class="cancel-button">Annuler</button>
+            </form>
+            <footer>
+                <p>Entreprise AIR SIMPLON SENEGAL</p>
+            </footer>
+     </body>
 </html>
-<?php
-    // Inclure le fichier de connexion à la base de données
-    require_once "connectionBD.php";
 
-    // Vérifier si le formulaire a été soumis
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-        // Récupérer les valeurs du formulaire
-        $dateReservation = $_POST["dateReservation"];
-        $dateRetour = $_POST["dateRetour"];
-        $prixBillets = $_POST["prixBillets"];
-        $statutBillets = $_POST["statutBillets"];
-        $numeroPlace = $_POST["numeroPlace"];
-        $typeBillets = $_POST["typeBillets"];
-        $paiementBillets = $_POST["paiementBillets"];
-// Exécuter la requête d'insertion avec l'ID_client
-        $requete = "INSERT INTO billets (DateHeure_reservation_billets, DateHeure_retour_billets, Prix_billets, Statut_billets, NumeroPlace_billets, Type_billets, Paiement_billets)
-                    VALUES ('$dateReservation', '$dateRetour', $prixBillets, '$statutBillets', '$numeroPlace', '$typeBillets', '$paiementBillets')";
- // Vérifier si l'insertion a réussi
-        if ($connexion->query($requete) === TRUE) {
-            echo "Les données ont été insérées avec succès.";
-        } else {
-            echo "Erreur lors de l'insertion : " . $connexion->error;
-        }
-    }
-// Fermer la connexion à la base de données
-    $connexion->close();
-    //Redirection vers un fichier PHP
-
-    ?>
