@@ -139,6 +139,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
 ?>
 
     <!--   <br>
-    <a href="listebillets.php">Retour à la liste des billets</a>-->
+<a href="listebillets.php">Retour à la liste des billets</a>-->
 </body>
 </html>
