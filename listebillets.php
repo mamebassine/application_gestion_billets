@@ -262,7 +262,10 @@
 
 
         $result = $conn->query($sql);
-
+        if (!$result) {
+            echo "Erreur lors de l'exécution de la requête SQL : " . $conn->error;
+            // Arrêtez le script ou gérez l'erreur en conséquence
+        }
         // Afficher les données dans un tableau HTML avec des liens pour CRUD
         echo "<table>";
         echo "<tr><th>ID</th><th>Date reservation</th><th>Date retour</th><th>Prix billets</th><th>ID client</th><th>Statut billets</th><th>Numero place</th><th>Type billets</th><th>Paiement billets</th><th>Actions</th></tr>";
