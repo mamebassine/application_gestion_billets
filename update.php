@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["id"])) {
     $numeroPlace = $_POST["numero_place"];
     $type = $_POST["type"];
 
-    // Construction de la requête SQL pour la mise à jour des données du billet avec l'ID spécifié
+    // c comme ajout le reste Construction de la requête SQL pour la mise à jour des données du billet avec l'ID spécifié
     $updateSql = "UPDATE billets SET 
                     DateHeure_reservation_billets='$dateReservation', 
                     DateHeure_retour_billets='$dateRetour', 

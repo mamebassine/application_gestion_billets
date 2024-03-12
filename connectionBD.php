@@ -11,5 +11,5 @@ if ($connexion->connect_error) {
     // Si la connexion échoue, affiche un message d'erreur et arrête le script
     die("La connexion a échoué : " . $connexion->connect_error);
 }
-// À ce stade, la connexion à la base de données a réussi et est stockée dans la variable $connexion. 
+?>
 ?>

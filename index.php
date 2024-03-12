@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
             background-image: url('Image.png'); /* Ajout de l'image de fond */
             background-size: cover;
             color: #FFFEFE; /* Couleur du texte */

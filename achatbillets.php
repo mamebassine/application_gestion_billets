@@ -9,15 +9,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dateRetour = $_POST["dateRetour"];
     $prixBillets = $_POST["prixBillets"];
     $statutBillets = $_POST["statutBillets"];
+    $destinationBillets = $_POST["destinationBillets"];
     $numeroPlace = $_POST["numeroPlace"];
     $typeBillets = $_POST["typeBillets"];
     $paiementBillets = $_POST["paiementBillets"];
+    $id_client = $_POST["ID_client"];
 
     // Utiliser des requêtes préparées pour éviter les injections SQL
-    $requete = $connexion->prepare("INSERT INTO billets (DateHeure_reservation_billets, DateHeure_retour_billets, Prix_billets, Statut_billets, NumeroPlace_billets, Type_billets, Paiement_billets) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $requete = $connexion->prepare("INSERT INTO billets (DateHeure_reservation_billets, DateHeure_retour_billets, Prix_billets, Statut_billets, NumeroPlace_billets, Destination_billets, Type_billets, Paiement_billets, ID_client) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     // Associer les valeurs aux paramètres de la requête préparée
-    $requete->bind_param("ssdssss", $dateReservation, $dateRetour, $prixBillets, $statutBillets, $numeroPlace, $typeBillets, $paiementBillets);
+    $requete->bind_param("ssdsssssi", $dateReservation, $dateRetour, $prixBillets, $statutBillets, $numeroPlace,  $destinationBillets, $typeBillets, $paiementBillets,  $id_client);
 
     // Exécuter la requête préparée
     if ($requete->execute()) {
@@ -47,6 +49,7 @@ body {
             padding: 0;
             font-family: Arial, sans-serif;
             background-image: url('imagef.jpg'); /* Ajout de l'image de fond */
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
             background-size: cover;
             color: #FFFEFE; /* Couleur du texte */
         }
@@ -226,7 +229,7 @@ nav {
             </header>
         <form action="achatbillets.php" method="post">
                 <h2>Acheter un Billet</h2>
-                <!-- Vos commentaires ici -->
+               
 
                 <label for="dateReservation">Date et heure de réservation :</label>
                 <input type="datetime-local" id="dateReservation" name="dateReservation" required>
@@ -236,7 +239,7 @@ nav {
 
                 <label for="prixBillets">Prix des billets :</label>
                 <input type="number" id="prixBillets" name="prixBillets" required>
-
+               
                 <label for="statutBillets">Statut des billets :</label>
                 <select id="statutBillets" name="statutBillets" required>
                     <option value="en_attente">En attente</option>
@@ -245,7 +248,26 @@ nav {
                 </select>
                 <label for="numeroPlace">Numéro de place :</label>
                 <input type="text" id="numeroPlace" name="numeroPlace" required>
-                <label for="typeBillets">Type de billets :</label>
+               <label for="destinationBillets">Destination :</label>
+        <select id="destinationBillets" name="destinationBillets" required>
+            <option value="" disabled selected>Sélectionnez un pays</option>
+            <option value="France">Dakar -&gt; France</option>
+            <option value="Espagne">Dakar -&gt; Espagne</option>
+            <option value="Italie">Dakar -&gt; Italie</option>
+            <option value="Allemagne">Dakar -&gt; Allemagne</option>
+            <option value="Royaume-Uni">Dakar -&gt; Royaume-Uni</option>
+            <option value="États-Unis">Dakar -&gt; États-Unis</option>
+            <option value="Canada">Dakar -&gt; Canada</option>
+           <option value="Chine">Dakar -&gt; Chine</option>
+            <option value="Brésil">Dakar -&gt; Brésil</option>
+           <option value="Russie">Dakar -&gt; Russie</option>
+            <option value="Afrique du Sud">par Dakar -&gt; Afrique du Sud</option>
+            <option value="Nigeria">Dakar -&gt; Nigeria</option>
+            <option value="Argentine">Dakar -&gt; Argentine</option>
+            <option value="Mexique">Dakar -&gt; Mexique</option>
+            <option value="Turquie">Dakar -&gt; Turquie</option>
+        </select>
+             <label for="typeBillets">Type de billets :</label>
                 <select id="typeBillets" name="typeBillets" required>
                     <option value="economique">Économique</option>
                     <option value="affaires">Affaires</option>
@@ -257,6 +279,22 @@ nav {
                     <option value="espece">Espèces</option>
                     <option value="virement">Virement bancaire</option>
                 </select>
+                <!--Pour cle etranger-->
+                <select name="ID_client" class="input100" required>
+               <?php
+               
+        // Connexion à la base de données
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "application_gestion_billets";
+        $conn = new mysqli($servername, $username, $password, $dbname);
+       $query_client = "SELECT ID, Prenom_client, Nom_client FROM client";
+  $result_client = $conn->query($query_client);
+  while ($client = $result_client->fetch_assoc()) {?>
+    <option value="<?=$client['ID']?>"><?=$client['Nom_client']?></option>
+<?php }?>
+</select>                <!--Pour cle etranger-->
                 <button type="submit" class="button1">Acheter</button>
                 <button type="reset" class="cancel-button">Annuler</button>
             </form>
@@ -265,4 +303,3 @@ nav {
             </footer>
      </body>
 </html>
-
